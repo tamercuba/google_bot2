@@ -1,0 +1,7 @@
+0001,YouTube,900,https://www.youtube.com/,youtube,videos,online
+0002,Netflix,800, https://www.netflix.com.br/,netflix,videos,streaming
+0003,Spotify,700,https://www.youtube.com/music,streaming,online,spotify
+0420,StackOverflow,950, https://www.stackoverflow.com.br/,stackoverflow,code,c,help,segmentationfault,whatdididowithmylife,minigooglebot
+4321,GoogleChrome,900,https://www.google.com/,google,how,to,help,search,browser,chrome
+0404,MicrosoftEdge,100, https://www.microsoft.com/br/,how,to,unistall,search,browser,microsoft
+7325,JupiterWeb,400,https://www.jupiterweb.usp.br/usp,jupiter,web,notas,5bolaehdez
