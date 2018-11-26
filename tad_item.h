@@ -12,3 +12,6 @@ int retorna_id(ITEM *item);
 int retorna_rel(ITEM *item);
 char *retorna_nome(ITEM *item);
 char *retorna_link(ITEM *item);
+//novas 
+int retorna_qtd_pc(ITEM *item);
+char *retorna_pc(ITEM *item, int i);
