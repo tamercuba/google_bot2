@@ -96,7 +96,6 @@ int ler_dados(LISTA *lista, node_trie *trie){
     char line[802];
     char word[50];
     tmp=1;
-
     fp = fopen("googlebot.txt", "r");//ponteiro para o aqruivo
     if(fp==NULL ){
         printf("fp error"); return 0;
@@ -164,6 +163,7 @@ void sugestao(LISTA *lista, node_trie *trie, char *key){
 			for(i=0;i < qtd;i++){
 				pc=node_retorna_pc(aux1,i);		/*GUARDA A i-ESIMA PALAVRA CHAVE*/
 				//printf("\n %s", pc);
+				printf("\n%s\n",pc);
 				imprime_sites(trie, pc);		/*FAZ UMA BUSCA COM A i-ESIMA CHAVE E IMPRIME TODOS SITES ENCONTRADOS*/
 			}
 			p=retorna_prox(p);
