@@ -150,21 +150,21 @@ void imprime_sites(node_trie *trie, char *key){
 }
 
 void sugestao(LISTA *lista, node_trie *trie, char *key){
-	LISTA *aux=search_node_trie(trie, key);
 	NODE *p, *aux1;
 	int i, id,qtd;
 	char *pc;
+	LISTA *aux=search_node_trie(trie, key);
 	if(aux!=NULL){
 		p=retorna_topo(aux);
 		while(p!=NULL){
-			id = node_retorna_id(p);
-			qtd= node_retorna_qtd_pc(p);
-			printf("\n %d",qtd);
-			aux1=busca_id(lista,id);
+			id = node_retorna_id(p);			/*PEGA O ID DO NO*/
+			aux1=busca_id(lista,id);			/*BUSCA ELE NA LISTA ORDENADA POR ID*/
+			qtd= node_retorna_qtd_pc(aux1);			/*PEGA A QUANTIDADE DE PALAVRAS CHAVE DESSE NO*/
+			printf("\n %d e %d \n",qtd, node_retorna_rel(aux1)); // TESTE 
 			for(i=0;i < qtd;i++){
-				pc=node_retorna_pc(aux1,i);
-				printf("\n %s", pc);
-				//imprime_sites(trie, pc);
+				pc=node_retorna_pc(aux1,i);		/*GUARDA A i-ESIMA PALAVRA CHAVE*/
+				//printf("\n %s", pc);
+				imprime_sites(trie, pc);		/*FAZ UMA BUSCA COM A i-ESIMA CHAVE E IMPRIME TODOS SITES ENCONTRADOS*/
 			}
 			p=retorna_prox(p);
 		}
