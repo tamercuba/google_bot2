@@ -159,10 +159,12 @@ void sugestao(LISTA *lista, node_trie *trie, char *key){
 		while(p!=NULL){
 			id = node_retorna_id(p);
 			qtd= node_retorna_qtd_pc(p);
+			printf("\n %d",qtd);
+			aux1=busca_id(lista,id);
 			for(i=0;i < qtd;i++){
-				aux1=busca_id(lista,id);
 				pc=node_retorna_pc(aux1,i);
-				imprime_sites(trie, pc);
+				printf("\n %s", pc);
+				//imprime_sites(trie, pc);
 			}
 			p=retorna_prox(p);
 		}
