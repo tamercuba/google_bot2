@@ -280,9 +280,10 @@ NODE *retorna_topo(LISTA *lista){
 	}
 	else return NULL;
 }
-int node_retorna_qtd_pc (NODE *no){
-	ITEM *i = (no->item);
+int node_retorna_qtd_pc(NODE *no){
+	ITEM *i;
 	if(no!=NULL){
+		i = no->item;
 		return(retorna_qtd_pc(i));
 	}
 	else return ERRO;
@@ -293,7 +294,35 @@ char *node_retorna_pc(NODE *no, int i){
 	else return NULL;
 }
 
+int node_retorna_id(NODE *no){
+	NODE *aux = no;
+	if(aux!=NULL){
+		return(retorna_id(aux->item));
+	}
+	else return(ERRO);
+}
 
+int node_retorna_rel(NODE *no){
+	NODE *aux = no;
+	if(aux!=NULL){
+		return(retorna_rel(aux->item));
+	}
+	else return(ERRO);
+}
 
+char *node_retorna_link(NODE *no){
+	NODE *aux = no;
+	if(aux!=NULL){
+		return(retorna_link(aux->item));
+	}
+	else return NULL;
+}
 
+char *node_retorna_nome(NODE *no){
+	NODE *aux = no;
+	if(aux!=NULL){
+		return(retorna_nome(aux->item));
+	}
+	else return NULL;
+}
 

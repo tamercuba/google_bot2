@@ -78,9 +78,6 @@ int main(void){      /*antes do while começar, devemos criar */
 								scanf("%d", &aux1);
 							}while(aux1 == 1);
 						}
-						else{
-								
-						}
 					}
 					break;
 				case 2:
@@ -143,7 +140,7 @@ int main(void){      /*antes do while começar, devemos criar */
 				case 7: //procurar por palavras relacionadas
 					printf("Digite a palavra chave a ser buscada:");
 					scanf("%s", pc_buscada);
-					sugestao(trie, pc_buscada);									
+					sugestao(lista, trie, pc_buscada);									
 					break;
 			}
 		}

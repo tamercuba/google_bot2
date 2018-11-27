@@ -9,7 +9,7 @@
 #define TRUE 1
 #define FALSE 0
 #define max_letters 50
-
+#define ERRO -32
 
 struct node_trie_{
     struct node_trie_ *prox[ALPHABET];
@@ -98,11 +98,9 @@ int ler_dados(LISTA *lista, node_trie *trie){
     tmp=1;
 
     fp = fopen("googlebot.txt", "r");//ponteiro para o aqruivo
-
     if(fp==NULL ){
         printf("fp error"); return 0;
     }
-
     while(!feof(fp)){//ler ate o final do arquivo txt
         fscanf(fp, "%d%*c%[^,]%*c%d%*c%[^,]%*c", &id, nome, &rel, link);
         tmp = lista_insere_site(lista, id, link, nome);
@@ -113,28 +111,20 @@ int ler_dados(LISTA *lista, node_trie *trie){
         if(tmp==0){
                 return 0;
         }
-
         fgets(line, 520, fp);                     //ler ate o final da linha
         length = strlen(line);
-
         for(i=0,j=0;i<=length+2;i++,j++){
-
             if(line[i] == ',' || i==length || line[i]=='\n' || line[i]=='\r' || line[i]=='\0'){         // se for final da linha ou encontrar uma virgula fim de uma palavra
                 word[j] = '\0';
                 insere_lista_pc(lista, id, word);     //insere palavra na lista
-
                 //parte da trie
                 insert_key_word(trie, word, 0, id, link, nome, rel);
-
                 j=-1;
             }else{
                 word[j]=line[i];             //copia caractere valido para a palavra
             }
         }
     }
-
-    //print_trie(trie);
-
     return 1;
 }
 
@@ -159,22 +149,21 @@ void imprime_sites(node_trie *trie, char *key){
 	return;
 }
 
-void sugestao(node_trie *trie, char *key){
-	node_trie *T=trie;
-	LISTA *aux=search_node_trie(T, key);
-	NODE *p;
-	int i, qtd;
+void sugestao(LISTA *lista, node_trie *trie, char *key){
+	LISTA *aux=search_node_trie(trie, key);
+	NODE *p, *aux1;
+	int i, id,qtd;
 	char *pc;
 	if(aux!=NULL){
 		p=retorna_topo(aux);
 		while(p!=NULL){
-			qtd = node_retorna_qtd_pc(p);
-			printf("\n quantidade:%d \n", qtd);
+			id = node_retorna_id(p);
+			qtd= node_retorna_qtd_pc(p);
 			for(i=0;i < qtd;i++){
-				pc=node_retorna_pc(p,i);
-				printf("%s", pc);
-				//imprime_sites(T,pc);
-			}		
+				aux1=busca_id(lista,id);
+				pc=node_retorna_pc(aux1,i);
+				imprime_sites(trie, pc);
+			}
 			p=retorna_prox(p);
 		}
 	}

@@ -93,7 +93,7 @@ char *retorna_link(ITEM *item){
 
 int retorna_qtd_pc (ITEM *item){
 	if(item!=NULL){
-		return((int)item->qtd_pc);
+		return(item->qtd_pc);
 	}
 	else return ERRO;
 }

@@ -23,4 +23,7 @@ NODE *retorna_prox(NODE *no);
 NODE *retorna_topo(LISTA *lista);
 int node_retorna_qtd_pc(NODE *no);
 char *node_retorna_pc(NODE *no, int i);
-
+int node_retorna_id(NODE *no);
+int node_retorna_rel(NODE *no);
+char *node_retorna_link(NODE *no);
+char *node_retorna_nome(NODE *no);
