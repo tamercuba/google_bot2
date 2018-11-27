@@ -7,5 +7,6 @@ LISTA *search_node_trie (node_trie *trie, char *key);
 int ler_dados(LISTA *lista, node_trie *trie);
 void print_trie (node_trie *trie);
 //novas
+void remove_pc_trie(node_trie *trie, NODE *no);
 void imprime_sites(node_trie *trie, char *key);
 void sugestao(node_trie *trie, char *key);

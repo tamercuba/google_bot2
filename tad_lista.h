@@ -10,7 +10,7 @@ NODE *retorna_topo(LISTA *lista);
 NODE *busca_id(LISTA *lista, int id);
 int lista_insere_site(LISTA *lista, int id, char *site, char *nome);
 int lista_insere_site_rel(LISTA *lista, int id, char *site, char *nome, int rel);
-int remove_site(LISTA *lista, int id);
+int remove_site(LISTA *lista, NODE *no);
 int insere_lista_pc(LISTA *lista, int id, char *pc);
 int atualiza_rel(LISTA *lista, int id, int rel);
 int finaliza_lista(LISTA **a);

@@ -8,9 +8,9 @@
 #define ERRO -32
 
 int main(void){      /*antes do while começar, devemos criar */
-	int aux,aux2, i, id, rel;      /* a lista e ler o arquivo */
-        int flag=0;
+	int aux, i, id, rel, aux1;      /* a lista e ler o arquivo */
         LISTA *lista;
+        NODE *a;
         node_trie *trie = creat_node_trie();
         char nome[51], site[101];
         char pc_buscada[50];
@@ -65,22 +65,18 @@ int main(void){      /*antes do while começar, devemos criar */
 						printf("Deseja inserir uma(s) palavra(s) chave? (0/1) \n");
 						scanf("%d",&aux1);
 						if(aux1==1){
-							while(1){
+							do{
 								printf("Digite a palavra chave a ser inserida: \n");
 								scanf("%s", pc_buscada);
 								if(insere_lista_pc(lista, id, pc_buscada) != 1 ){
 									printf("Nao foi possivel inserir a palavra chave \n");
 									break;
 								}		
-								insert_key_word(trie, pc_buscada,0,id,site,nome, ); // PAREI AQUI 
+								insert_key_word(trie, pc_buscada, 0, id, site, nome, rel); // PAREI AQUI 
 								printf("Palavra inserida com sucesso! \n");
 								printf("Deseja inserir outra palavra chave ? (0/1) \n");
 								scanf("%d", &aux1);
-								if(aux==0){
-									break;
-								}
-							}
-							break;
+							}while(aux1 == 1);
 						}
 						else{
 								
@@ -88,9 +84,11 @@ int main(void){      /*antes do while começar, devemos criar */
 					}
 					break;
 				case 2:
-					printf("Insira o site a ser removido:\n");
+					printf("Insira o ID do site a ser removido:\n");
 					scanf("%d", &id);
-					i=remove_site(lista, id);
+					a = busca_id(lista,id);
+                    			remove_pc_trie(trie, a);
+					i=remove_site(lista, a);
 					if(i==0){
 						printf("Nao foi encontrado um site com o id fornecido\n");
 					}
@@ -116,7 +114,7 @@ int main(void){      /*antes do while começar, devemos criar */
 					scanf("%d", &id);
 					printf("Insira a relevancia nova do site inserido:\n");
 					scanf("%d", &rel);
-					i=atualiza_rel(lista, id, rel);
+					i=atualiza_rel(lista, id, rel);    /*PRECISA ATULIZAR NA TRIE*/
 					if(i==0){
 						printf("Site nao encontrado\n");
 					}
@@ -146,7 +144,7 @@ int main(void){      /*antes do while começar, devemos criar */
 					printf("Digite a palavra chave a ser buscada:");
 					scanf("%s", pc_buscada);
 					sugestao(trie, pc_buscada);									
-				break;
+					break;
 			}
 		}
 	}

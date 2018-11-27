@@ -1,5 +1,5 @@
 
-typedef struct item_g ITEM; 
+typedef struct item_g ITEM;
 
 ITEM *inicia_item(void);
 void libera_item(ITEM *item);

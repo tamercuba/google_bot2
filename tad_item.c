@@ -91,8 +91,10 @@ char *retorna_link(ITEM *item){
 	else return NULL;
 }
 
-int retorna_qtd_pc(ITEM *item){
-	if(item!=NULL) return(item->qtd_pc);
+int retorna_qtd_pc (ITEM *item){
+	if(item!=NULL){
+		return((int)item->qtd_pc);
+	}
 	else return ERRO;
 }
 

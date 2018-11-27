@@ -54,7 +54,9 @@ void insert_key_word(node_trie *trie, char *key, int begin,int id, char *link, c
                 p->lista = lista_inicia();
 	}
         lista_insere_site_rel(p->lista, id, link, nome, rel);
-    //INSERT ON THE END OF THE LIST
+	// NOVO
+	i=insere_lista_pc(p->lista, id, key);
+	//INSERT ON THE END OF THE LIST
         return;
 }
 
@@ -85,55 +87,67 @@ LISTA *search_node_trie (node_trie *trie, char *key){
 
 int ler_dados(LISTA *lista, node_trie *trie){
 
-	FILE *fp;
-	//char c;
-	int id, rel, i, j, tmp;
-	int length;
-	char nome[50];
-	char link[100];
-	char line[802];
-	char word[50];
-	tmp=1;
+    FILE *fp;
+    //char c;
+    int id, rel, i, j, tmp;
+    int length;
+    char nome[50];
+    char link[100];
+    char line[802];
+    char word[50];
+    tmp=1;
 
-	fp = fopen("googlebot.txt", "r");//ponteiro para o aqruivo
+    fp = fopen("googlebot.txt", "r");//ponteiro para o aqruivo
 
-	if(fp==NULL ){
-		printf("fp error"); return 0;
-	}
+    if(fp==NULL ){
+        printf("fp error"); return 0;
+    }
 
-	while(!feof(fp)){//ler ate o final do arquivo txt
-		fscanf(fp, "%d%*c%[^,]%*c%d%*c%[^,]%*c", &id, nome, &rel, link);
-		tmp = lista_insere_site(lista, id, link, nome);
-		if(tmp==0){
-				return 0;
-		}
-		atualiza_rel(lista, id, rel);
-		if(tmp==0){
-				return 0;
-		}
+    while(!feof(fp)){//ler ate o final do arquivo txt
+        fscanf(fp, "%d%*c%[^,]%*c%d%*c%[^,]%*c", &id, nome, &rel, link);
+        tmp = lista_insere_site(lista, id, link, nome);
+        if(tmp==0){
+                return 0;
+        }
+        atualiza_rel(lista, id, rel);
+        if(tmp==0){
+                return 0;
+        }
 
-		fgets(line, 520, fp); 					//ler ate o final da linha
-		length = strlen(line);
+        fgets(line, 520, fp);                     //ler ate o final da linha
+        length = strlen(line);
 
-		for(i=0,j=0;i<=length;i++,j++){
+        for(i=0,j=0;i<=length+2;i++,j++){
 
-			if(line[i] == ',' || i==length){ 		// se for final da linha ou encontrar uma virgula fim de uma palavra
-				word[j] = '\0';
-				insere_lista_pc(lista, id, word); 	//insere palavra na lista
+            if(line[i] == ',' || i==length || line[i]=='\n' || line[i]=='\r' || line[i]=='\0'){         // se for final da linha ou encontrar uma virgula fim de uma palavra
+                word[j] = '\0';
+                insere_lista_pc(lista, id, word);     //insere palavra na lista
 
-				//parte da trie
-				insert_key_word(trie, word, 0, id, link, nome, rel);
+                //parte da trie
+                insert_key_word(trie, word, 0, id, link, nome, rel);
 
-				j=-1;
-			}else{
-				word[j]=line[i]; 			//copia caractere valido para a palavra
-			}
-		}
-	}
+                j=-1;
+            }else{
+                word[j]=line[i];             //copia caractere valido para a palavra
+            }
+        }
+    }
 
-	//print_trie(trie);
+    //print_trie(trie);
 
-	return 1;
+    return 1;
+}
+
+void remove_pc_trie(node_trie *trie, NODE *no){
+    char *pc;
+    LISTA *lista;
+    int i;
+    for(i=0;i<node_retorna_qtd_pc(no);i++){
+        pc = node_retorna_pc(no, i);
+        lista = search_node_trie(trie, pc);
+        remove_site(lista, no);
+    }
+    return;
 }
 
 void imprime_sites(node_trie *trie, char *key){
@@ -146,14 +160,20 @@ void imprime_sites(node_trie *trie, char *key){
 }
 
 void sugestao(node_trie *trie, char *key){
-	LISTA *aux=search_node_trie(trie, key);
+	node_trie *T=trie;
+	LISTA *aux=search_node_trie(T, key);
 	NODE *p;
-	int i;
+	int i, qtd;
+	char *pc;
 	if(aux!=NULL){
 		p=retorna_topo(aux);
 		while(p!=NULL){
-			for(i=0;i < node_retorna_qtd_pc(p) ;i++){
-				imprime_sites(trie, node_retorna_pc(p,i) );
+			qtd = node_retorna_qtd_pc(p);
+			printf("\n quantidade:%d \n", qtd);
+			for(i=0;i < qtd;i++){
+				pc=node_retorna_pc(p,i);
+				printf("%s", pc);
+				//imprime_sites(T,pc);
 			}		
 			p=retorna_prox(p);
 		}
