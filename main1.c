@@ -126,8 +126,13 @@ int main(void){      /*antes do while começar, devemos criar */
 						return ERRO;
 					}
 					else{
-						system("clear");
-						return 1;
+						if(finaliza_trie(&trie)){
+							system("clear");
+							return 1;
+						}else{
+							printf("erro ao sair do programa");
+							return ERRO;						
+						}
 					}
 					break;
 

@@ -19,11 +19,10 @@ struct node_trie_{
 
 
 node_trie *creat_node_trie (void){
-
+    int i;
     node_trie *trie = (node_trie *) malloc(sizeof(node_trie));
     trie->end = FALSE;
     trie->lista = lista_inicia();
-    int i;
     for(i=0;i<ALPHABET;i++){
         trie->prox[i] = NULL;
     }
@@ -113,11 +112,11 @@ int ler_dados(LISTA *lista, node_trie *trie){
         fgets(line, 520, fp);                     //ler ate o final da linha
         length = strlen(line);
         for(i=0,j=0;i<=length+2;i++,j++){
-            if(line[i] == ',' || i==length || line[i]=='\n' || line[i]=='\r' || line[i]=='\0'){         // se for final da linha ou encontrar uma virgula fim de uma palavra
+            if(line[i] == ',' || i==length || line[i]=='\n' || line[i]=='\r' || line[i]=='\0' || line[i]==' '){         // se for final da linha ou encontrar uma virgula fim de uma palavra
                 word[j] = '\0';
-                insere_lista_pc(lista, id, word);     //insere palavra na lista
+                insere_lista_pc(lista,id,word);     //insere palavra na lista
                 //parte da trie
-                insert_key_word(trie, word, 0, id, link, nome, rel);
+                insert_key_word(trie,word,0,id,link,nome,rel);
                 j=-1;
             }else{
                 word[j]=line[i];             //copia caractere valido para a palavra
@@ -162,12 +161,27 @@ void sugestao(LISTA *lista, node_trie *trie, char *key){
 			printf("\n %d e %d \n",qtd, node_retorna_rel(aux1)); // TESTE 
 			for(i=0;i < qtd;i++){
 				pc=node_retorna_pc(aux1,i);		/*GUARDA A i-ESIMA PALAVRA CHAVE*/
-				//printf("\n %s", pc);
-				printf("\n%s\n",pc);
+				printf("\n%s\n",pc);			// TESTE	
 				imprime_sites(trie, pc);		/*FAZ UMA BUSCA COM A i-ESIMA CHAVE E IMPRIME TODOS SITES ENCONTRADOS*/
 			}
 			p=retorna_prox(p);
 		}
 	}
 	return;
+}
+
+int finaliza_trie(node_trie **trie){
+	node_trie *aux;
+	int i;
+	aux= *trie;
+	for(i=0;i<ALPHABET;i++){
+		if(aux->prox[i] != NULL){
+			if(finaliza_trie(&(aux->prox[i]))){
+				free(aux->prox[i]);
+			}
+		}
+	}
+	finaliza_lista(&(aux->lista));
+	free(aux);
+	return 1;
 }

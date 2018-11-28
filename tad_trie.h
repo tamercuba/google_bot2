@@ -11,3 +11,4 @@ void insere_trie(LISTA *lista, node_trie *trie);
 void remove_pc_trie(node_trie *trie, NODE *no);
 void imprime_sites(node_trie *trie, char *key);
 void sugestao(LISTA *lista,node_trie *trie, char *key);
+int finaliza_trie(node_trie **trie);
