@@ -150,7 +150,7 @@ int lista_insere_site_rel(LISTA *lista, int id, char *site, char *nome, int rel)
 			lista->tam++;
 			return 1;
 		}
-		if(retorna_rel(aux->prox->item) <= id){ //o id do site inserido esta no meio da lsita
+		if(retorna_rel(aux->prox->item) <= rel){ //o id do site inserido esta no meio da lsita
 			no->prox = aux->prox;
 			aux->prox = no;
 			lista->tam++;
