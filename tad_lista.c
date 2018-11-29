@@ -286,24 +286,23 @@ void imprime_toda_lista(LISTA *lista){
 void imprime_toda_lista2(LISTA *lista, int **check){
 	NODE *aux;
 	int *temp;
-	int i=0;
+	int i;
 	temp=*check;
+    i=0;
 	if(lista == NULL){
 		return;
 	}else{
         	aux = lista->sup;
 		while(aux!=NULL){
-			for(i=0;1;i++){
-				if(temp[i]==0){
-       		     			i=0;
+			while(i < 150){
+				if(retorna_id(aux->item) == temp[i]){
+            				aux=aux->prox;
+					i++;
+            				/*sai do while*/
+       	     			}else if(temp[i]==0){
+            				i=0;
        		     			break;
        		     			/*sai do while*/
-       	     			}
-            			if(retorna_id(aux->item) == temp[i]){
-            				aux=aux->prox;
-            				i=0;
-            				break;
-            				/*sai do while*/
             			}
 			}
             		printf("%s, %s\n", retorna_nome(aux->item), retorna_link(aux->item));

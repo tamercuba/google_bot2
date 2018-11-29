@@ -11,13 +11,14 @@
 #define max_letters 50
 #define ERRO -32
 
+/*NO TRIE*/
 struct node_trie_{
     struct node_trie_ *prox[ALPHABET];
     struct lista_ *lista;
-    int end; //indicates this is the end cahracter
+    int end; /*BOOLEANO QUE INDICA SE É FIM DE PALAVRA OU NAO*/
 };
 
-
+/*INICIA NO*/
 node_trie *creat_node_trie (void){
     int i;
     node_trie *trie = (node_trie *) malloc(sizeof(node_trie));
@@ -29,6 +30,7 @@ node_trie *creat_node_trie (void){
     return trie;
 }
 
+/*ÍNSERE PALAVRA NA TRIE*/
 void insert_key_word(node_trie *trie, char *key, int begin,int id, char *link, char *nome, int rel){
         node_trie *p = trie;
         int i;
@@ -53,12 +55,10 @@ void insert_key_word(node_trie *trie, char *key, int begin,int id, char *link, c
                 p->lista = lista_inicia();
 	}
         lista_insere_site_rel(p->lista, id, link, nome, rel);
-	// NOVO
-	//i=insere_lista_pc(p->lista, id, key);
-	//INSERT ON THE END OF THE LIST
         return;
 }
 
+/*BUSCA PALAVRA NA TRIE*/
 LISTA *search_node_trie (node_trie *trie, char *key){
     node_trie *p = trie;
 
@@ -76,7 +76,7 @@ LISTA *search_node_trie (node_trie *trie, char *key){
     }
 
     if(p->end == TRUE && p != NULL){
-		//HERE WE NEED TO RETURN THE LIST THAT IS IN THE NODE P
+		/*RETORNA A LISTA QUE ESA NO NODE *P */
         return p->lista;
     }else{
         return NULL;
@@ -84,6 +84,7 @@ LISTA *search_node_trie (node_trie *trie, char *key){
 
 }
 
+/*FUNCAO QUE LE O ARQUIVO GOOGLEBOT.TXT E FAZ AS INSERCOES NECESSARIAS*/
 int ler_dados(LISTA *lista, node_trie *trie){
 
     FILE *fp;
@@ -93,11 +94,11 @@ int ler_dados(LISTA *lista, node_trie *trie){
     char link[100];
     char line[802];
     tmp=1;
-    fp = fopen("googlebot.txt", "r");//ponteiro para o aqruivo
+    fp = fopen("googlebot.txt", "r");		/*ponteiro para o aqruivo*/
     if(fp==NULL ){
         printf("fp error"); return 0;
     }
-    while(!feof(fp)){//ler ate o final do arquivo txt
+    while(!feof(fp)){			/*ler ate o final do arquivo txt*/
         fscanf(fp, "%d%*c%[^,]%*c%d%*c%[^,]%*c", &id, nome, &rel, link);
         tmp = lista_insere_site(lista, id, link, nome);
         if(tmp==0){
@@ -118,6 +119,7 @@ int ler_dados(LISTA *lista, node_trie *trie){
     return 1;
 }
 
+/*REMOVE PALAVRA DA TRIE*/
 void remove_pc_trie(node_trie *trie, NODE *no){
     char *pc;
     LISTA *lista;
@@ -130,6 +132,7 @@ void remove_pc_trie(node_trie *trie, NODE *no){
     return;
 }
 
+/*IMPRIME SITES*/
 void imprime_sites(node_trie *trie, char *key){
 	LISTA *aux = search_node_trie(trie, key);
 	if(aux!=NULL){
@@ -150,12 +153,14 @@ void imprime_sites2(node_trie *trie, char *key, int **check){
 	return;
 }
 
+/*FUNÇÃO DE SUGESTAO*/
 void sugestao(LISTA *lista, node_trie *trie, char *key){
 	NODE *p, *aux1;
 	int i, id,qtd,*check;
 	char *pc;
 	LISTA *aux=search_node_trie(trie, key);
 	check=(int*)malloc(150*sizeof(int));
+	if(check==NULL) return;
 	for(i=0; i<150; i++){
 		check[i]=0;
 	}
@@ -176,6 +181,7 @@ void sugestao(LISTA *lista, node_trie *trie, char *key){
 	return;
 }
 
+/*FINALIZA TRIE*/
 int finaliza_trie(node_trie **trie){
 	node_trie *aux;
 	int i;
