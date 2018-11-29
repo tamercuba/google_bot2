@@ -1,0 +1,23 @@
+T2 GRUPO 15 
+// INTEGRANTER
+TAMER PINHEIRO CUBA N#USP 9301882
+
+//COMPILADOR E PLATAFORMA
+O sistema operacional utilizado foi Linux e e para compilar basta usar o makefile disponivel no .zip
+//INSTRUÇÕES DE USO 
+Logo após executar o programa o arquivo 'googlebot.txt' será lido e o seguinte menu aparecerá na tela:
+
+	Pressione um dos números para dar inicio a operação:
+	1-Inserir um site						// a ordem de inserção das infos do site será explicitada na tela
+	2-Remover um site
+	3-Inserir palavra-chave
+	4-Atualizar relevancia
+	5-Buscar palavra-chave						
+	6-Sugestão										
+	7-Sair
+	
+//SOBRE AS ESTRUTURAS ESCOLHIDAS
+A primeira decisão que tomamos foi fazer um tad separado com o tipo abstrato ITEM que guarda as informações do site, garantindo liberdade na escolha das demais estruturas e facilidade na alocação dessas informações.
+Para armazenar os sites e ter acesso facil via id escolhemos uma lista encadeada ordenada por id e para garantir a eficiencia da busca por palavras-chave decidimos fazer uma trie onde cada palavra valida na trie aponta para uma lista encadeada ordenada por relevancia de sites que contém aquela palavra-chave. 
+//METODOS 
+
