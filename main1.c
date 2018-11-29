@@ -24,10 +24,9 @@ int main(void){      /*antes do while começar, devemos criar */
         }
       	else{
       		aux=0;
-      		//printf("%d", busca(busca_id(lista, 7325) ) );
 		while(1){
+			printf("1-Inserir um site \n2-Remover um site \n3-Inserir palavra-chave\n4-Atualizar relevancia\n5-Buscar palavra-chave\n6-Sugestão de site\n7-Sair\n");
 			printf("Pressione um dos números para dar início a uma operação: \n");
-			printf("1-Inserir um site \n2-Remover um site \n3-Inserir palavra-chave\n4-Atualizar relevancia\n5-Sair\n6-BUscar palavra-chave\n7-Buscar palavras relacionadas\n");
 			scanf("%d",&aux);
 			if(aux < 0 || aux > 7){
 				printf("Valor incorreto, insira novamente:");
@@ -35,6 +34,7 @@ int main(void){      /*antes do while começar, devemos criar */
 			}
 			switch(aux){
 				case 1:
+					/*INSERE SITE*/
 					printf("Insira o nome do site\n");
 					scanf(" %s", nome);
 					printf("insira o id do site:\n");
@@ -50,7 +50,7 @@ int main(void){      /*antes do while começar, devemos criar */
 					}
 					else{
 						printf("Site inserido com sucesso\n");
-						
+
 						printf("Deseja inserir a relevancia do site? (0/1) \n");
 						scanf("%d",&aux1);
 						if(aux1==1){
@@ -71,8 +71,8 @@ int main(void){      /*antes do while começar, devemos criar */
 								if(insere_lista_pc(lista, id, pc_buscada) != 1 ){
 									printf("Nao foi possivel inserir a palavra chave \n");
 									break;
-								}		
-								insert_key_word(trie, pc_buscada, 0, id, site, nome, rel); // PAREI AQUI 
+								}
+								insert_key_word(trie, pc_buscada, 0, id, site, nome, rel);
 								printf("Palavra inserida com sucesso! \n");
 								printf("Deseja inserir outra palavra chave ? (0/1) \n");
 								scanf("%d", &aux1);
@@ -81,11 +81,14 @@ int main(void){      /*antes do while começar, devemos criar */
 					}
 					break;
 				case 2:
+					/*REMOVE SITE*/
 					printf("Insira o ID do site a ser removido:\n");
 					scanf("%d", &id);
 					a = busca_id(lista,id);
-                    			remove_pc_trie(trie, a);
-					i=remove_site(lista, a);
+					if(a!=NULL){
+						i=remove_site(lista, a);
+                        remove_pc_trie(trie, a);
+					}
 					if(i==0){
 						printf("Nao foi encontrado um site com o id fornecido\n");
 					}
@@ -94,6 +97,7 @@ int main(void){      /*antes do while começar, devemos criar */
 					}
 					break;
 				case 3:
+					/*INSERE PALAVRA CHAVE*/
 					printf("Insira o id do site desejado:\n");
 					scanf("%d", &id);
 					printf("Insira a palavra chave desejada:\n");
@@ -107,6 +111,7 @@ int main(void){      /*antes do while começar, devemos criar */
 					}
 					break;
 				case 4:
+					/*ATUALIZA RELEVANCIA*/
 					printf("Insira o id do site desejado:\n");
 					scanf("%d", &id);
 					printf("Insira a relevancia nova do site inserido:\n");
@@ -120,6 +125,20 @@ int main(void){      /*antes do while começar, devemos criar */
 					}
 					break;
 				case 5:
+					/*BUSCA POR PALAVRA CHAVE*/
+					printf("Digite a Palavra Chave a ser Buscada\n");
+					scanf("%s", pc_buscada);
+					imprime_sites(trie, pc_buscada);
+					break;
+				case 6:
+					/*SUGESTÃO POR PALAVRA CHAVE*/
+					printf("Digite a palavra chave a ser buscada:");
+					scanf("%s", pc_buscada);
+					sugestao(lista, trie, pc_buscada);
+					break;
+				case 7:
+					/*FINALIZA LISTA*/
+					printf("antes de finalizar");
 					i=finaliza_lista(&lista);
 					if(i!=1){
 						printf("erro ao sair do programa");
@@ -131,21 +150,9 @@ int main(void){      /*antes do while começar, devemos criar */
 							return 1;
 						}else{
 							printf("erro ao sair do programa");
-							return ERRO;						
+							return ERRO;
 						}
 					}
-					break;
-
-		                case 6:
-					printf("Digite a Palavra Chave a ser Buscada\n");
-					scanf("%s", pc_buscada);
-					imprime_sites(trie, pc_buscada);
-					break;
-
-				case 7: //procurar por palavras relacionadas
-					printf("Digite a palavra chave a ser buscada:");
-					scanf("%s", pc_buscada);
-					sugestao(lista, trie, pc_buscada);									
 					break;
 			}
 		}

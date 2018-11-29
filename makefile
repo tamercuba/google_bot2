@@ -4,7 +4,7 @@ HFILES=$(wildcard *.h)
 OFILES=$(CFILES:.c=.o)
 FINAL=prog
 LINKFLAGS = -lm -o
-COMPFLAGS = -c -g -O3 -std=c11
+COMPFLAGS = -c -g -O3 -std=c89
 
 all: $(FINAL)
 

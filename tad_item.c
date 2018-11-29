@@ -29,6 +29,8 @@ ITEM *inicia_item(void){					/* FUNCAO INICIA ITEM*/
 
 void libera_item(ITEM *item){					/* LIBERA ITEM*/
 	free(item);
+	item=NULL;
+	return;
 }
 
 int insere_id(ITEM *item, int valor){   			/* INSERE ID*/
@@ -100,7 +102,7 @@ int retorna_qtd_pc (ITEM *item){
 
 char *retorna_pc(ITEM *item, int i){
 	if(i < item->qtd_pc ){
-		return( item->palavra_chave[i] );	
+		return( item->palavra_chave[i] );
 	}
 	return NULL;
 }

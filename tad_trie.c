@@ -32,7 +32,7 @@ node_trie *creat_node_trie (void){
 void insert_key_word(node_trie *trie, char *key, int begin,int id, char *link, char *nome, int rel){
         node_trie *p = trie;
         int i;
-        for(i=begin;key[i]!='\0' && key[i]!='\n';i++){  
+        for(i=begin;key[i]!='\0' && key[i]!='\n' && key[i]!='\r';i++){
                 if(key[i]>='a' && key[i]<='z'){
                         if(p->prox[key[i]-'a'] == NULL){
                                 p->prox[key[i] -'a'] = creat_node_trie();
@@ -54,12 +54,12 @@ void insert_key_word(node_trie *trie, char *key, int begin,int id, char *link, c
 	}
         lista_insere_site_rel(p->lista, id, link, nome, rel);
 	// NOVO
-	i=insere_lista_pc(p->lista, id, key);
+	//i=insere_lista_pc(p->lista, id, key);
 	//INSERT ON THE END OF THE LIST
         return;
 }
 
-LISTA *search_node_trie (node_trie *trie, char *key){ 
+LISTA *search_node_trie (node_trie *trie, char *key){
     node_trie *p = trie;
 
     if(trie == NULL){
@@ -87,13 +87,11 @@ LISTA *search_node_trie (node_trie *trie, char *key){
 int ler_dados(LISTA *lista, node_trie *trie){
 
     FILE *fp;
-    //char c;
-    int id, rel, i, j, tmp;
-    int length;
+    char *pch;
+    int id, rel, tmp;
     char nome[50];
     char link[100];
     char line[802];
-    char word[50];
     tmp=1;
     fp = fopen("googlebot.txt", "r");//ponteiro para o aqruivo
     if(fp==NULL ){
@@ -109,18 +107,12 @@ int ler_dados(LISTA *lista, node_trie *trie){
         if(tmp==0){
                 return 0;
         }
-        fgets(line, 520, fp);                     //ler ate o final da linha
-        length = strlen(line);
-        for(i=0,j=0;i<=length+2;i++,j++){
-            if(line[i] == ',' || i==length || line[i]=='\n' || line[i]=='\r' || line[i]=='\0' || line[i]==' '){         // se for final da linha ou encontrar uma virgula fim de uma palavra
-                word[j] = '\0';
-                insere_lista_pc(lista,id,word);     //insere palavra na lista
-                //parte da trie
-                insert_key_word(trie,word,0,id,link,nome,rel);
-                j=-1;
-            }else{
-                word[j]=line[i];             //copia caractere valido para a palavra
-            }
+        fgets(line, 520, fp);
+        pch = strtok (line,",");
+        while (pch != NULL){
+            insere_lista_pc(lista,id,pch);
+            insert_key_word(trie,pch,0,id,link,nome,rel);
+            pch = strtok (NULL, ",");
         }
     }
     return 1;
@@ -147,26 +139,40 @@ void imprime_sites(node_trie *trie, char *key){
 	return;
 }
 
+void imprime_sites2(node_trie *trie, char *key, int **check){
+	int *temp;
+	LISTA *aux = search_node_trie(trie, key);
+	temp=*check;
+	if(aux!=NULL){
+		imprime_toda_lista2(aux, &temp);
+		return;
+	}
+	return;
+}
+
 void sugestao(LISTA *lista, node_trie *trie, char *key){
 	NODE *p, *aux1;
-	int i, id,qtd;
+	int i, id,qtd,*check;
 	char *pc;
 	LISTA *aux=search_node_trie(trie, key);
+	check=(int*)malloc(150*sizeof(int));
+	for(i=0; i<150; i++){
+		check[i]=0;
+	}
 	if(aux!=NULL){
 		p=retorna_topo(aux);
 		while(p!=NULL){
 			id = node_retorna_id(p);			/*PEGA O ID DO NO*/
 			aux1=busca_id(lista,id);			/*BUSCA ELE NA LISTA ORDENADA POR ID*/
 			qtd= node_retorna_qtd_pc(aux1);			/*PEGA A QUANTIDADE DE PALAVRAS CHAVE DESSE NO*/
-			printf("\n %d e %d \n",qtd, node_retorna_rel(aux1)); // TESTE 
 			for(i=0;i < qtd;i++){
 				pc=node_retorna_pc(aux1,i);		/*GUARDA A i-ESIMA PALAVRA CHAVE*/
-				printf("\n%s\n",pc);			// TESTE	
-				imprime_sites(trie, pc);		/*FAZ UMA BUSCA COM A i-ESIMA CHAVE E IMPRIME TODOS SITES ENCONTRADOS*/
+				imprime_sites2(trie, pc, &check);		/*FAZ UMA BUSCA COM A i-ESIMA CHAVE E IMPRIME TODOS SITES ENCONTRADOS*/
 			}
 			p=retorna_prox(p);
 		}
 	}
+	free(check);
 	return;
 }
 

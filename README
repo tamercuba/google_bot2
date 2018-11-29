@@ -1,23 +1,65 @@
 T2 GRUPO 15 
-// INTEGRANTES
+  
+	// INTEGRANTES
 TAMER PINHEIRO CUBA N#USP 9301882
-LUCA 
-//COMPILADOR E PLATAFORMA
+LUCA MACHADO BOTTINO N#USP 9760300
+
+	//COMPILADOR E PLATAFORMA
 O sistema operacional utilizado foi Linux e e para compilar basta usar o makefile disponivel no .zip
-//INSTRUÇÕES DE USO 
+
+	//INSTRUÇÕES DE USO 
 Logo após executar o programa o arquivo 'googlebot.txt' será lido e o seguinte menu aparecerá na tela:
 
-	Pressione um dos números para dar inicio a operação:
-	1-Inserir um site						// a ordem de inserção das infos do site será explicitada na tela
-	2-Remover um site
-	3-Inserir palavra-chave
-	4-Atualizar relevancia
-	5-Buscar palavra-chave						
-	6-Sugestão										
-	7-Sair
-	
-//SOBRE AS ESTRUTURAS ESCOLHIDAS
-A primeira decisão que tomamos foi fazer um tad separado com o tipo abstrato ITEM que guarda as informações do site, garantindo liberdade na escolha das demais estruturas e facilidade na alocação dessas informações.
-Para armazenar os sites e ter acesso facil via id escolhemos uma lista encadeada ordenada por id e para garantir a eficiencia da busca por palavras-chave decidimos fazer uma trie onde cada palavra valida na trie aponta para uma lista encadeada ordenada por relevancia de sites que contém aquela palavra-chave. 
-//METODOS 
+    Pressione um dos números para dar inicio a operação:
+    1-Inserir um site            // a ordem de inserção das infos do site será explicitada na tela
+    2-Remover um site
+    3-Inserir palavra-chave
+    4-Atualizar relevancia
+    5-Buscar palavra-chave            
+    6-Sugestão                    
+    7-Sair
+    
+	//SOBRE AS ESTRUTURAS ESCOLHIDAS
+Como decisão de projeto foi escolhido fazer um tad separado com o tipo abstrato ITEM que guarda as informações do site, garantindo liberdade na escolha das demais estruturas de dados e facilidade na alocação das informações.
+Para armazenar os sites foram utilizadas duas esturutras distintas: uma trie cujos os nós são ponteiros para listas simplesmente enccadeadas ordenadas por relevância e um lista simplesmente encacdeada ordenada por id.
+Para buscar um site a partir de seu id foi utilizado uma lista simplesmente encadeada ordenada por id.
 
+	//Busca por palavra_chave
+Como a busca por palavra-chavee é a operação mais frenquente do programa, foi decidido utilitar uma trie onde cada palavra valida na trie aponta para uma lista simplesmente encadeada ordenada por relevancia de sites que contém aquela palavra-chave. Deste modo, se os sites youtube e netflix possuem a palavra-chave vídeo, o nó da trie que indica vídeo possuirá uma lista encadeada que contém os sites youtube e netflix. A busca por palavras-chave retornam da trie uma lista encadeada já ordenada por relevância de modo que basta imprimir todos os nós dessa lista quando for buscado uma palavra-chave.
+	
+	//Sugestao
+O algoritimo de Sugestão realiza uma busca por palavra-chave O(1) e então para cada site retornado pela busca por palavra-chave, o algoritimo realiza uma busca sequencial na lista simplesmente encadeada ordenada por id retornando as palavras-chave de cada um dos sites O(1). Por fim, para cada palavra chave de cada site encontrado chama novamente a busca por palavras_chave e retorna todos os sites que possuem palavras chave em comum com os sites buscados O(1). Deste modo, a operação de sugestão possui uma eficiência O(n) mais uma constante.
+*IMPORTANTE: como não foi especificado na descrição do trabalho optamos por imprimir os sites de sugestão ordenados por relevância de maneira local e não global. Deste modo se buscamos pela palavra-chave vídeos na sugestão, imprimimos primeiro todas as palavras relacionadas com o site mais relevante e depois o segundo mais relevante, assim por diante. Essa decisão foi tomada visando facilidade de implementação e eficiência uma vez que não seria necessário ordenar os sites relacionados por relevancia globalmente economizando, assim, tempo de processamento.
+
+	//Justificativas
+Procuramos priorizar ao máximo a eficiência da busca por palavras-chave uma vez que essa operacao é utilizada tanto pela função de busca por palavras chave, quanto pela função de sugetão. Para tanto em detrimento da economia de memoria, ganhamos em velocidade de processamento utilizando uma Trie. E para buscar as palavras chave por id mantemos a estrutura do T1, uma lista simplesmente encadeada ordenada por id.
+
+	//EFICIENCIA E ESPACO DE MEMORIA
+Trie:
+Busca O(1)
+Memória O(n)
+Inserção O(1)
+Remoção O(1)
+Sendo n = número de palavras-chave
+
+Lista ordenada por relevancia:
+Busca O(n)
+Memória O(n)
+Inserção O(n)
+Remoção O(n)
+Sendo n = número de palavras-chave idênticas, portanto, um n bem menor que o número de sites.
+
+Lista Ordenada por id:
+Busca O(n)
+Memória O(n)
+Inserção O(n)
+Remoção O(n)
+Sendo n o número total de sites.
+
+Eficiencia final do algoritimo:
+Busca por palavra chave:
+Eficiencia O(1)
+Memoria O(n)
+Sustão:
+Eficiencia O(n)
+Memoria O(n)

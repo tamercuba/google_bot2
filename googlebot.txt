@@ -1,4 +1,4 @@
-0001,YouTube,900,https://www.youtube.com/,youtube,videos,online
+70001,YouTube,900,https://www.youtube.com/,youtube,videos,online
 0002,Netflix,800, https://www.netflix.com.br/,netflix,videos,streaming,online
 0003,Spotify,700,https://www.youtube.com/music,streaming,online,spotify
 0420,StackOverflow,950, https://www.stackoverflow.com.br/,stackoverflow,code,c,help,segmentationfault,whatdididowithmylife

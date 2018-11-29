@@ -1,0 +1,76 @@
+NO LISTA.C E LISTA.H
+
+int remove_site(LISTA *lista, NODE *no) {
+    // Store head node
+
+    int id = retorna_id(no->item);
+    NODE* temp = lista->sup;
+    NODE *prev;
+
+    // If head node itself holds the key to be deleted
+    if (temp != NULL && retorna_id(temp->item) == id){
+        lista->sup = temp->prox;
+        free(temp);
+        return 1;
+    }
+
+
+    while (temp != NULL && retorna_id(temp->item) != id){
+        prev = temp;
+        temp = temp->prox;
+    }
+
+    // If key was not present in linked list
+    if (temp == NULL) return 0;
+
+    // Unlink the node from linked list
+    prev->prox = temp->prox;
+
+    free(temp);  // Free memory
+
+    return 1; // Node successfully removed
+}
+
+ NO TRIE.C E TRIE.H
+
+void remove_pc_trie(node_trie *trie, NODE *no){
+
+    char *pc;
+    LISTA *lista;
+    int i;
+
+    for(i=0;i<node_retorna_qtd_pc(no);i++){
+
+        pc = node_retorna_pc(no, i);
+        lista = search_node_trie(trie, pc);
+        remove_site(lista, no);
+
+    }
+    return;
+
+}
+
+
+NA MAIN.C SUBSTITUA ONDE ESTÁ ESCRITO CASE 2: ATE O BREAK
+
+case 2:
+					printf("Insira o ID do site a ser removido:\n");
+					scanf("%d", &id);
+					NODE *aux = busca_id(lista,id);
+
+                    remove_pc_trie(trie, aux);
+
+
+					i=remove_site(lista, aux);
+					if(i==0){
+						printf("Nao foi encontrado um site com o id fornecido\n");
+					}
+					else{
+						printf("Site removido com sucesso\n");
+					}
+					break;
+
+
+
+
+

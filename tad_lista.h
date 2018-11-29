@@ -18,7 +18,9 @@ int busca(NODE *no);
 void libera_node(NODE *no);
 void imprime_id_lista(LISTA *lista);
 void imprime_toda_lista(LISTA *lista);
-//novas
+/*FUNCAO NOVA PRA IMPRIMIR SEM REPETIR NO SUGESTAO*/
+void imprime_toda_lista2(LISTA *lista, int **check);
+
 NODE *retorna_prox(NODE *no);
 NODE *retorna_topo(LISTA *lista);
 int node_retorna_qtd_pc(NODE *no);
